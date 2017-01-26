@@ -7,7 +7,7 @@ export function getConnections() {
             type: ActionTypes.REQUEST_CONNECTIONS
         });
 
-        fetch('/get-connections')
+        fetch('http://localhost:4000/getConnections')
             .then(function(response) {
                 return response.json();
             })
@@ -27,7 +27,7 @@ export function startSync(access_token) {
         });
         let igData = store().instagram.data;
         $.ajax({
-            url: '/insert-posts',
+            url: 'http://localhost:4000/insertPosts',
             method: 'POST',
             data: {
                 data: igData
@@ -90,7 +90,7 @@ export function getPosts() {
             type: ActionTypes.REQUEST_DB_POSTS
         });
 
-        let url = '/get-posts';
+        let url = 'http://localhost:4000/getPosts';
         var data = [];
 
         const getIGPosts = (url) => {
@@ -118,7 +118,7 @@ export function saveAccessToken(user_id, access_token) {
         });
 
         $.ajax({
-            url: '/handle_ig_auth',
+            url: 'http://localhost:4000/handleIgAuth',
             method: 'POST',
             data: {
                 user_id: user_id,

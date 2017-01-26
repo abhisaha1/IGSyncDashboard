@@ -15,7 +15,7 @@ app.use(require("webpack-dev-middleware")(compiler, {
     publicPath: webpackConfig.output.publicPath
 }));
 app.use(require("webpack-hot-middleware")(compiler));
-console.log(serverRendering);
+
 app.use(serverRendering);
 
 const PORT = process.env.PORT || 3000;

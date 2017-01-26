@@ -5,7 +5,6 @@ import rootReducer from './reducers/index';
 import thunk from 'redux-thunk';
 import DevTools from './containers/DevTools';
 
-//import * as ChatSocketActions from './actions/ChatSocketActions';
 
 /*
   Store

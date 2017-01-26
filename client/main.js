@@ -6,7 +6,7 @@ import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import { Router, Route, IndexRoute, hashHistory, browserHistory } from 'react-router'
 import 'babel-polyfill';
-import 'react-mdl/extra/material.js';
+
 
 /*
   Import Components
