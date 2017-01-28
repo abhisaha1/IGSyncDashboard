@@ -12,7 +12,7 @@ class Card extends Component {
 		let connections = this.props.connections;
 		return (
 		    <tr>
-				<td><img width="60" src={JSON.parse(this.props.post.images).low_resolution.url}/></td>
+				<td><img width="60" src={this.props.post.images.low_resolution.url}/></td>
 				<td>{this.props.post.body}</td>
 				<td>{this.props.post.tags}</td>
 				<td className="text-center">{this.props.post.likes}</td>

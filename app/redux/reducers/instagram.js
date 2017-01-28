@@ -1,6 +1,8 @@
 var ActionTypes     = require('../actions/ActionTypes');
 import moment from 'moment'
 
+const defaultTitle = 'Instagram Title';
+
 var initalState = {
 	data: [],
 	loading: false
@@ -14,20 +16,33 @@ function filterByTag(data, tag) {
 
 }
 
+function getTitleFromTags(tags) {
+	let title = defaultTitle;
+	tags.map((tag) => {
+		if(tag.indexOf('title_') >= 0) {
+			title = tag.split('title_')[1]
+		}
+	})
+	return title;
+}
+
 function formatData(data) {
 
 	let formattedData = [];
 	data.forEach((item) => {
+		let title = getTitleFromTags(item.tags);
 		let post = {
-			title: 'Instagram Post',
+			title: title,
 			body: item.caption.text,
 			author: item.caption.from.full_name,
 			likes: item.likes.count,
 			comments: item.comments.count,
 			created_on: moment.unix(item.created_time).format("YYYY-MM-DD HH:mm:ss"),
-			images: JSON.stringify(item.images),
+			images: item.images,
 			tags: item.tags.join(', '),
 			post_id: item.id,
+			url: (title == defaultTitle) ? Math.floor((Math.random() * 100000) + 1) : title.replace(/ /g,'-'),
+			refer_url: item.link,
 		};
 		formattedData.push(post);
 	})

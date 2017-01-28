@@ -61,7 +61,7 @@ let t=  function(req, res) {
                 <link rel="stylesheet" href="http://bootswatch.com/cosmo/bootstrap.min.css">
                 <link rel="stylesheet" href="/css/style.css">
               </head>
-              <body>
+              <body id='dashboard'>
                 <div id="app">${renderedComponent}</div>
                 <script type="application/javascript">
                    window.__INITIAL_STATE__ = ${JSON.stringify(initialState)};

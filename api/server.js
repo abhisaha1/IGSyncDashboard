@@ -17,7 +17,9 @@ app.use(session({
   cookie: { maxAge: 60000 }
 }));
 app.use(bodyParser.json());
-
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 // Add headers
 app.use((req, res, next) => {
 

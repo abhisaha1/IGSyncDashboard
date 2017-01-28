@@ -8,10 +8,18 @@ export function getConnections() {
         });
 
         fetch('http://localhost:4000/getConnections')
-            .then(function(response) {
+            .then((response) => {
                 return response.json();
             })
-            .then(function(response) {
+            .then((response) => {
+                let connections = {}
+                response.forEach((connection) => {
+                    connection.active = true;
+                    connections[connection.network] = connection;
+                })
+                return connections;
+            })
+            .then((response) => {
                 dispatch({
                     type: ActionTypes.GET_CONNECTIONS,
                     payload: response

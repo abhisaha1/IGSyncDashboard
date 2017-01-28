@@ -1,0 +1,99 @@
+import React, { Component } from 'react';
+import {connect} from 'react-redux';
+import {Link} from 'react-router'
+import {bindActionCreators} from 'redux';
+import * as ActionCreators from '../redux/actions/ActionCreators';
+import SocialButtons from '../components/SocialButtons'
+import SidebarWrapper from '../components/SidebarWrapper';
+import Comments from '../components/Comments'
+
+class Post extends Component {
+
+	static prefetchData = [
+		(params) => ActionCreators.getPosts(params.title)
+	];
+	
+	componentDidMount() {
+		if(!this.props.posts.post_loaded) {
+			this.props.getPost(this.props.params.title)
+		}
+		
+	}
+	componentWillReceiveProps(nextState) {
+		
+		if(nextState.posts.post.post_id && (nextState.posts.post.post_id !== this.props.posts.post.post_id)) {
+			this.props.getComments(nextState.posts.post.post_id);
+		}
+	}
+
+	render() {
+		if(this.props.posts.post_loading) {
+			return (
+				<div>
+            		Loading..
+				</div>
+			)
+		}
+		
+		return (
+			<div>
+				<div className="row row-offcanvas row-offcanvas-left">
+					<div className='visible-md visible-lg'>
+						<SidebarWrapper sidebar={<Comments comments={this.props.comments} refer_url={this.props.refer_url} />} />
+					</div>
+					<div className="col-sm-12 col-md-8" style={{'marginTop': '30px'}}>
+						<section className='grid-container1'>
+							<article className='card'>
+								<header>
+									<div className="media">
+										<img width='100%' src={this.props.posts.post.images.standard_resolution.url}/>
+									</div>
+								</header>	
+								<div className='content-area'>
+								    <div className='content'>{this.props.posts.post.body }</div>
+								    <p><strong>Tags: </strong> {this.props.posts.post.tags}</p>
+								    <footer>
+								    	<div className='share pull-left'> 
+								    		<SocialButtons post={this.props.posts.post}/>
+							    		</div>
+							    		<div className='comment-count pull-right'> 
+							    			<a target='_blank' href='https://www.instagram.com/p/-T1WIcPdWJ/' className='btn btn-default btn-xs btn-social-icon btn-fb'> 
+							    				<i className='fa fa-heart'></i><span> {this.props.posts.post.likes}</span> 
+							    			</a> 
+							    			<a href='http://cliptales.com/instapost/swing/' className='btn btn-default btn-xs btn-social-icon btn-fb'> 
+							    				<i className='fa fa-comments'></i><span> {this.props.posts.post.comments}</span> 
+							    			</a> 
+						    			</div>
+						    			<div className='clearfix'/>
+								    </footer>
+							    </div>
+						  	</article>
+						</section>
+						<div className='visible-xs visible-sm'>
+							<Comments comments={this.props.comments} refer_url={this.props.refer_url} />
+						</div>
+					</div>
+				</div>
+            </div>
+			
+		)
+
+	}
+
+}
+
+const mapStateToProps = (state) => {
+  return {
+    posts: state.posts,
+    comments: state.comments,
+  };
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators({
+    getPost: ActionCreators.getPost,
+    getComments: ActionCreators.getComments,
+  }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Post);

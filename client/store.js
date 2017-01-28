@@ -5,7 +5,6 @@ import rootReducer from './reducers/index';
 import thunk from 'redux-thunk';
 import DevTools from './containers/DevTools';
 
-//import * as ChatSocketActions from './actions/ChatSocketActions';
 
 /*
   Store
@@ -14,12 +13,6 @@ import DevTools from './containers/DevTools';
   2. An optional starting state - similar to React's getInitialState
 */
 const initialState = {};
-
-const enhancers = compose(
-  window.devToolsExtension ? window.devToolsExtension() : f => f
-);
-
-
 
 const store = createStore(
     rootReducer, 
