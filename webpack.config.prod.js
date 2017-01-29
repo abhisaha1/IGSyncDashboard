@@ -8,7 +8,7 @@ module.exports = {
         client: ['./client/client']
     },
     output: {
-        path: path.join(__dirname, 'dist'),
+        path: path.join(__dirname, 'public/js'),
         filename: '[name]-bundle.js',
         publicPath: '/static/'
     },

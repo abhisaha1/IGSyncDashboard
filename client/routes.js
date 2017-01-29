@@ -10,6 +10,7 @@ import {
 export default (
       <Route path="/" component={App}>
         <IndexRoute component={Home}></IndexRoute>
+        <Route path="/page/:page_no" component={Home}></Route>
         <Route path="/post/:title" component={Post}></Route>
       </Route>
 );

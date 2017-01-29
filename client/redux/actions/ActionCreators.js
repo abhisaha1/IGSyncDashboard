@@ -1,14 +1,15 @@
 import ActionTypes from './ActionTypes'
 import $ from 'jquery';
 import fetch from 'isomorphic-fetch';
+import config from '../../../config/config'
 
-export function getPosts() {
+export function getPosts(page_no = 1) {
     return (dispatch) => {
         dispatch({
             type: ActionTypes.REQUEST_DB_POSTS
         });
 
-        let url = 'http://localhost:4000/getPosts';
+        let url = `${config.apiUrl}/getPosts/page/${page_no}`;
         var data = [];
 
         const getIGPosts = (url) => {
@@ -39,7 +40,7 @@ export function getPost(title) {
         dispatch({
             type: ActionTypes.REQUEST_DB_POSTS
         });
-        let url = `http://localhost:4000/getPostsByUrl/${title}`;
+        let url = `${config.apiUrl}/getPostsByUrl/${title}`;
     
         var data = [];
 
@@ -71,7 +72,7 @@ export function getComments(post_id) {
         dispatch({
             type: ActionTypes.REQUEST_COMMENTS
         });
-        let url = `http://localhost:4000/getCommentsByPostId/${post_id}`;
+        let url = `${config.apiUrl}/getCommentsByPostId/${post_id}`;
     
         return fetch(url)
             .then(response => {

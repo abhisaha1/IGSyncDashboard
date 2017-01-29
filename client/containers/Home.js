@@ -50,7 +50,7 @@ class Home extends Component {
 	}
 	
 	static prefetchData = [
-		ActionCreators.getPosts
+		(params) => ActionCreators.getPosts(params.page_no)
 	];
 
 	componentDidMount() {

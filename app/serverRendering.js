@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/server';
 //import Helmet from 'react-helmet';
-
+import config from '../config/config';
 import { match, RouterContext } from 'react-router'
 
 import { Provider } from 'react-redux';
@@ -50,7 +50,7 @@ let t=  function(req, res) {
         );
 
         //let head = Helmet.rewind();
-
+        var bundle = (process.env.NODE_ENV == 'production') ? '/js/dashboard-bundle.js':'/static/dashboard-bundle.js'
         const HTML = `
             <!DOCTYPE html>
             <html lang="en">
@@ -65,8 +65,9 @@ let t=  function(req, res) {
                 <div id="app">${renderedComponent}</div>
                 <script type="application/javascript">
                    window.__INITIAL_STATE__ = ${JSON.stringify(initialState)};
+                   window.__CONFIG__ =  ${JSON.stringify(config)}
                 </script>
-                <script src="/static/dashboard-bundle.js"></script>
+                <script src="${bundle}"></script>
               </body>
             </html>    
         `;

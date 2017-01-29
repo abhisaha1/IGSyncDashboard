@@ -1,6 +1,5 @@
-require('babel-register');
 var express = require('express');
-
+import config from '../config/config';
 var serverRendering = require('./serverRendering');
 
 const app = express();
@@ -8,7 +7,8 @@ app.use(express.static('public'));
 
 // start a webpack-dev-server
 var webpack = require('webpack');
-var webpackConfig = require('../webpack.config.dev.js');
+var wpConfigFile = (process.env.NODE_ENV == 'dev') ? '../webpack.config.dev.js' : '../webpack.config.prod.js';
+var webpackConfig = require(wpConfigFile);
 var compiler = webpack(webpackConfig);
 app.use(require("webpack-dev-middleware")(compiler, {
     noInfo: true, 
@@ -18,7 +18,6 @@ app.use(require("webpack-hot-middleware")(compiler));
 
 app.use(serverRendering);
 
-const PORT = 2000;
-app.listen(PORT, function () {
-  console.log('====> Client listening on', PORT);
+app.listen(config.clientPort, function () {
+  console.log('====> Client listening on', config.clientPort);
 });

@@ -1,5 +1,8 @@
 import ActionTypes from './ActionTypes'
 import $ from 'jquery';
+import config from '../../../config/config'
+
+let apiUrl = config.apiUrl;
 
 export function getConnections() {
     return (dispatch) => {
@@ -7,7 +10,7 @@ export function getConnections() {
             type: ActionTypes.REQUEST_CONNECTIONS
         });
 
-        fetch('http://localhost:4000/getConnections')
+        fetch(`${apiUrl}/getConnections`)
             .then((response) => {
                 return response.json();
             })
@@ -35,7 +38,7 @@ export function startSync(access_token) {
         });
         let igData = store().instagram.data;
         $.ajax({
-            url: 'http://localhost:4000/insertPosts',
+            url: `${apiUrl}/insertPosts`,
             method: 'POST',
             data: {
                 data: igData
@@ -98,7 +101,7 @@ export function getPosts() {
             type: ActionTypes.REQUEST_DB_POSTS
         });
 
-        let url = 'http://localhost:4000/getPosts';
+        let url = `${apiUrl}/getPosts`;
         var data = [];
 
         const getIGPosts = (url) => {
@@ -106,7 +109,11 @@ export function getPosts() {
                 type: ActionTypes.REQUEST_DB_POSTS,
                 payload: true
             })
-            $.get(url, function(response) {
+            fetch(url)
+            .then(response => {
+                return response.json()
+            })
+            .then(response => {
                 dispatch({
                     type: ActionTypes.GET_DB_POSTS,
                     payload: response
@@ -126,7 +133,7 @@ export function saveAccessToken(user_id, access_token) {
         });
 
         $.ajax({
-            url: 'http://localhost:4000/handleIgAuth',
+            url: `${apiUrl}/handleIgAuth`,
             method: 'POST',
             data: {
                 user_id: user_id,

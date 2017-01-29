@@ -1,7 +1,7 @@
 import express from 'express';
 import session from 'express-session';
 import bodyParser from 'body-parser';
-
+import config from '../config/config';
 import * as actions from './actions/index';
 import {mapUrl} from './utils/url.js';
 import http from 'http';
@@ -65,17 +65,13 @@ app.use((req, res) => {
   }
 });
 
-var config = {
-  apiPort: 4000,
-  apiHost: 'localhost'
-}
 if (config.apiPort) {
   const runnable = app.listen(config.apiPort, (err) => {
     if (err) {
       console.error(err);
     }
     console.info('----\n==> 🌎  API is running on port %s', config.apiPort);
-    console.info('==> 💻  Send requests to http://%s:%s', config.apiHost, config.apiPort);
+    console.info('==> 💻  Send requests to %s', config.apiUrl);
   });
 } else {
   console.error('==>     ERROR: No PORT environment variable has been specified');
