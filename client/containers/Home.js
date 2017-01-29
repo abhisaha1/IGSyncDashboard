@@ -11,14 +11,14 @@ import Masonry from 'react-masonry-component'
 class Card extends Component {
 
 	render() {
-		
-		return (
+		{/*this.props.post.images.standard_resolution.url*/}
+		return (	
 			<article className='col-sm-12 col-md-6'>
 				<div className='card'>
 					<header>
 						<Link to={'/post/' + this.props.post.url }>
 							<div className="media">
-								<img width='100%' src={this.props.post.images.standard_resolution.url}/>
+								<img width='100%' src={this.props.post.images.standard_resolution.url }/>
 							</div>
 						</Link>
 					</header>	
@@ -50,6 +50,7 @@ class LoadMore extends Component {
 	constructor(props){
 		super(props);
 		this.handleLoadMore = this.handleLoadMore.bind(this);
+		this.currentPage = 1;
 	}
 
 	loadMoreStatus() {
@@ -64,8 +65,10 @@ class LoadMore extends Component {
 			page_no = parseInt(this.props.props.params.page_no) + 1;
 		}
 
-		this.context.router.push('/page/'+ page_no)
+		//this.context.router.push('/page/'+ page_no)
 		//this.props.props.getPosts(page_no);
+		this.currentPage += 1;
+		this.props.props.getPosts(this.currentPage,true);
 	}
 
 	render() {
@@ -84,7 +87,7 @@ LoadMore.contextTypes = {
 };
 
 var masonryOptions = {
-    transitionDuration: 0
+    transitionDuration: 500
 };
 
 
@@ -101,16 +104,60 @@ class Home extends Component {
 	componentDidMount() {
 		if(!this.props.posts.posts_loaded) {
 			this.props.getPosts();
+		}else{
+			let that = this;
+			this.props.posts.data.map((post,i) => {
+				if(post.images.standard_resolution.loadUrl) {
+					((index) => {
+						that.loadImage(post.images.standard_resolution.loadUrl, index)
+						.then((index) => {
+							that.props.lazyLoadFinish(index)
+						})
+						.catch(() => {
+
+						})
+					})(i)
+				}
+			})
 		}
 	}
-	componentWillReceiveProps(nextProps) {
-		if(this.props.params.page_no != nextProps.params.page_no) {
-			this.props.getPosts(nextProps.params.page_no, true);
+	handleLayoutComplete(items) {
+		console.log(items);
+	}
+	loadImage(src,index) {
+        return new Promise(function(resolve, reject){
+            var img = new Image()
+            img.onload = function(){
+                resolve(index)
+            }
+            img.onerror = function(){
+                reject(index)
+            }
+            img.src = src
+        })
+	}
+
+	componentWillReceiveProps(nextState) {
+		let that = this;
+		if(this.props.posts.data.length < nextState.posts.data.length) {
+			nextState.posts.data.map((post,i) => {
+				if(post.images.standard_resolution.loadUrl) {
+					((index) => {
+						that.loadImage(post.images.standard_resolution.loadUrl, index)
+						.then((index) => {
+							that.props.lazyLoadFinish(index)
+						})
+						.catch(() => {
+
+						})
+					})(i)
+				}
+			})
 		}
 	}
 
 	render() {
-		if(this.props.posts.posts_loading) {
+		if(this.props.posts.posts_loading && !this.props.posts.loadMore) {
 			return (
 				<div>
 	        		<div className="jumbotron">
@@ -142,11 +189,12 @@ class Home extends Component {
 					<div className="col-xs-12 col-sm-8" style={{'marginTop': '30px'}}>
 						<section className='grid-container'>
 							<Masonry
+								onLayoutComplete={laidOutItems => this.handleLayoutComplete(laidOutItems)}
 				                className={''} // default ''
 				                elementType={'div'} // default 'div'
 				                options={masonryOptions} // default {}
 				                disableImagesLoaded={false} // default false
-				                updateOnEachImageLoad={false} // default false and works only if disableImagesLoaded is false
+				                updateOnEachImageLoad={true} // default false and works only if disableImagesLoaded is false
 				            >
 				                {posts}
 				            </Masonry>
@@ -170,7 +218,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
-    getPosts: ActionCreators.getPosts
+    getPosts: ActionCreators.getPosts,
+    lazyLoadFinish: ActionCreators.lazyLoadFinish
   }, dispatch);
 }
 

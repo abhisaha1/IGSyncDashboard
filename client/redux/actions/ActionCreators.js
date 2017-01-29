@@ -27,12 +27,39 @@ export function getPosts(page_no = 1, loadMore = false) {
                 dispatch({
                     type: ActionTypes.GET_DB_POSTS,
                     payload: response,
-                    loadMore: loadMore
+                    loadMore: false
                 })
             })
         }
 
         return getIGPosts(url);
+    }
+}
+function deepCopy(obj,cb) {
+    if (null == obj || "object" != typeof obj) return obj;
+    var copy = obj.constructor();
+    for (var attr in obj) {
+        if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
+    }
+    cb(copy);
+}
+export function lazyLoadFinish(index) {
+
+    return (dispatch, state) => {
+        let posts = state().posts
+        deepCopy(posts.data,(newState) => {
+            newState.map((post, i) => {
+                if(index == i) {
+                    newState[i].images.standard_resolution.url = post.images.standard_resolution.loadUrl
+                    delete newState[i].images.standard_resolution.loadUrl
+                }
+            });
+            dispatch({
+                type: ActionTypes.LAZY_LOADED,
+                payload: newState
+            });
+        });
+        
     }
 }
 
