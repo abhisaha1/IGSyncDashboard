@@ -6,36 +6,39 @@ import * as ActionCreators from '../redux/actions/ActionCreators';
 import SocialButtons from '../components/SocialButtons'
 import SidebarWrapper from '../components/SidebarWrapper';
 import About from '../components/About';
+import Masonry from 'react-masonry-component'
 
 class Card extends Component {
 
 	render() {
 		
 		return (
-			<article className='card'>
-				<header>
-					<Link to={'/post/' + this.props.post.url }>
-						<div className="media">
-							<img width='100%' src={this.props.post.images.standard_resolution.url}/>
-						</div>
-					</Link>
-				</header>	
-				<div className='content-area'>
-				    <div className='content'>{this.props.post.body }</div>
-				    <footer>
-				    	<div className='share pull-left'> 
-				    		<SocialButtons post={this.props.post}/>
-			    		</div>
-			    		<div className='comment-count pull-right'> 
-			    			<a target='_blank' href='https://www.instagram.com/p/-T1WIcPdWJ/' className='btn btn-default btn-xs btn-social-icon btn-fb'> 
-			    				<i className='fa fa-heart'></i><span> {this.props.post.likes}</span> 
-			    			</a> 
-			    			<a href='http://cliptales.com/instapost/swing/' className='btn btn-default btn-xs btn-social-icon btn-fb'> 
-			    				<i className='fa fa-comments'></i><span> {this.props.post.comments}</span> 
-			    			</a> 
-		    			</div>
-		    			<div className='clearfix'/>
-				    </footer>
+			<article className='col-sm-12 col-md-6'>
+				<div className='card'>
+					<header>
+						<Link to={'/post/' + this.props.post.url }>
+							<div className="media">
+								<img width='100%' src={this.props.post.images.standard_resolution.url}/>
+							</div>
+						</Link>
+					</header>	
+					<div className='content-area'>
+					    <div className='content'>{this.props.post.body }</div>
+					    <footer>
+					    	<div className='share pull-left'> 
+					    		<SocialButtons post={this.props.post}/>
+				    		</div>
+				    		<div className='comment-count pull-right'> 
+				    			<a target='_blank' href='https://www.instagram.com/p/-T1WIcPdWJ/' className='btn btn-default btn-xs btn-social-icon btn-fb'> 
+				    				<i className='fa fa-heart'></i><span> {this.props.post.likes}</span> 
+				    			</a> 
+				    			<a href='http://cliptales.com/instapost/swing/' className='btn btn-default btn-xs btn-social-icon btn-fb'> 
+				    				<i className='fa fa-comments'></i><span> {this.props.post.comments}</span> 
+				    			</a> 
+			    			</div>
+			    			<div className='clearfix'/>
+					    </footer>
+				    </div>
 			    </div>
 		  	</article>
 		)
@@ -70,13 +73,20 @@ class LoadMore extends Component {
 			return <div>Nothing to load</div>
 		}
 		return (
-			<Link className="btn btn-default btn-sm" onClick={(e) => this.handleLoadMore(e)}>Load More</Link>
+			<div className="col-lg-12">
+				<Link className="btn btn-default btn-sm" onClick={(e) => this.handleLoadMore(e)}>Load More</Link>
+			</div>
 		)
 	}
 }
 LoadMore.contextTypes = {
   router: React.PropTypes.object.isRequired
 };
+
+var masonryOptions = {
+    transitionDuration: 0
+};
+
 
 class Home extends Component {
 
@@ -131,7 +141,16 @@ class Home extends Component {
 					<SidebarWrapper sidebar={<About/>} />
 					<div className="col-xs-12 col-sm-8" style={{'marginTop': '30px'}}>
 						<section className='grid-container'>
-						 	{posts}
+							<Masonry
+				                className={''} // default ''
+				                elementType={'div'} // default 'div'
+				                options={masonryOptions} // default {}
+				                disableImagesLoaded={false} // default false
+				                updateOnEachImageLoad={false} // default false and works only if disableImagesLoaded is false
+				            >
+				                {posts}
+				            </Masonry>
+						 	
 					 	</section>
 					 	<LoadMore posts={this.props.posts} props={this.props} getPosts={this.props.getPosts}/>
 					</div>

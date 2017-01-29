@@ -90,17 +90,17 @@ section.grid-container {
     font-size: .85em;
 }
 
-article.card {
+article .card {
     display: inline-block;
     background: #fff;
     margin: 0 0 1.5em;
-    width: 100%;
+    /*width: 100%;*/
     box-sizing: border-box;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.18);
 }
-@media only screen and (min-width: 700px) {
+/*@media only screen and (min-width: 700px) {
     section.grid-container {
         -moz-column-count: 2;
         -webkit-column-count: 2;
@@ -115,15 +115,15 @@ article.card {
         -webkit-column-count: 3;
         column-count: 3;
     }
-}
+}*/
 
-section.grid-container article.card .media{
+section.grid-container article .card .media{
   position: relative;
 }
-section.grid-container article.card .media:hover:after, article.card .media:hover:before {
+section.grid-container article .card .media:hover:after, article .card .media:hover:before {
     opacity: 1;
 }
-section.grid-container article.card .media:before {
+section.grid-container article .card .media:before {
     content: "+";
     width: 100%;
     color: #222;
@@ -133,7 +133,7 @@ section.grid-container article.card .media:before {
     font-size: 60px;
     text-align: center;
 }
-section.grid-container article.card .media:after {
+section.grid-container article .card .media:after {
     content: '\A';
     width: 100%;
     height: 100%;
@@ -141,23 +141,23 @@ section.grid-container article.card .media:after {
     left: 0;
     background: rgba(255,255,255,.8);
 }
-article.card .media:after, article.card .media:before {
+article .card .media:after, article .card .media:before {
     position: absolute;
     opacity: 0;
     transition: all .5s;
     -webkit-transition: all .5s;
 }
-article.card .content-area {
+article .card .content-area {
   padding: 10px 6px;
 }
 
-article.card .content-area .content {
+article .card .content-area .content {
   padding-bottom: 5px;
 } 
-article.card .content-area footer {
+article .card .content-area footer {
   padding-top: 5px;
 } 
-article.card .content-area .btn-social-icon {
+article .card .content-area .btn-social-icon {
   margin-right: 1px;
 }
 
