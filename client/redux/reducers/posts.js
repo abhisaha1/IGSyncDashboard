@@ -7,7 +7,8 @@ var initalState = {
 	post: {},
 	post_loading: true,
 	post_loaded: false,
-	count: 0
+	count: 0,
+	loadMore: false
 }
 
 function instagram(state=initalState, action) {
@@ -15,12 +16,13 @@ function instagram(state=initalState, action) {
 	
 	switch(action.type) {
       	case ActionTypes.GET_DB_POSTS:
-			return {
+      		return {
 				...state,
-        		data: [...action.payload.data],
+        		data: (action.loadMore) ? [...state.data, ...action.payload.data] : [...action.payload.data],
         		posts_loading: false,
         		posts_loaded: true,
-        		count: action.payload.count
+        		count: action.payload.count,
+        		loadMore: action.loadMore
 	      	};
 	    case ActionTypes.GET_DB_SINGLE_POST:
 			return {
@@ -36,6 +38,7 @@ function instagram(state=initalState, action) {
 				posts_loaded: false,
         		post_loading: true,
         		post_loaded: false,
+        		loadMore: action.loadMore
 	      	};
   		default:
   			break;

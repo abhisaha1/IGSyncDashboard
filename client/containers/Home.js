@@ -9,13 +9,12 @@ import About from '../components/About';
 
 class Card extends Component {
 
-
 	render() {
 		
 		return (
 			<article className='card'>
 				<header>
-					<Link to={'post/' + this.props.post.url }>
+					<Link to={'/post/' + this.props.post.url }>
 						<div className="media">
 							<img width='100%' src={this.props.post.images.standard_resolution.url}/>
 						</div>
@@ -43,6 +42,42 @@ class Card extends Component {
 	}
 }
 
+class LoadMore extends Component {
+	
+	constructor(props){
+		super(props);
+		this.handleLoadMore = this.handleLoadMore.bind(this);
+	}
+
+	loadMoreStatus() {
+        if(this.props.posts.data.length < this.props.posts.count) {
+        	return true;
+        }
+    }
+	handleLoadMore(e) {
+		e.preventDefault();
+		let page_no = 2;
+		if(this.props.props.params.page_no) {
+			page_no = parseInt(this.props.props.params.page_no) + 1;
+		}
+
+		this.context.router.push('/page/'+ page_no)
+		//this.props.props.getPosts(page_no);
+	}
+
+	render() {
+		if(!this.loadMoreStatus()) {
+			return <div>Nothing to load</div>
+		}
+		return (
+			<Link className="btn btn-default btn-sm" onClick={(e) => this.handleLoadMore(e)}>Load More</Link>
+		)
+	}
+}
+LoadMore.contextTypes = {
+  router: React.PropTypes.object.isRequired
+};
+
 class Home extends Component {
 
 	constructor(props){
@@ -58,17 +93,34 @@ class Home extends Component {
 			this.props.getPosts();
 		}
 	}
+	componentWillReceiveProps(nextProps) {
+		if(this.props.params.page_no != nextProps.params.page_no) {
+			this.props.getPosts(nextProps.params.page_no, true);
+		}
+	}
+
 	render() {
 		if(this.props.posts.posts_loading) {
 			return (
 				<div>
-            		Loading..
-				</div>
+	        		<div className="jumbotron">
+					  <h1>Cliptales</h1>
+					  <p>Where paperclips come to life and do weird things</p>
+					</div>
+					<div className="row row-offcanvas row-offcanvas-left">
+						<SidebarWrapper sidebar={<About/>} />
+						<div className="col-xs-12 col-sm-8" style={{'marginTop': '30px'}}>
+							Loading..
+						 	<LoadMore posts={this.props.posts} props={this.props} getPosts={this.props.getPosts}/>
+						</div>
+					</div>
+	            </div>
 			)
 		}
 		const posts = this.props.posts.data.map((post, i) => {
 			return <Card key={i} post={ post } />
 		})
+		
         return (
         	<div>
         		<div className="jumbotron">
@@ -78,9 +130,10 @@ class Home extends Component {
 				<div className="row row-offcanvas row-offcanvas-left">
 					<SidebarWrapper sidebar={<About/>} />
 					<div className="col-xs-12 col-sm-8" style={{'marginTop': '30px'}}>
-					<section className='grid-container'>
-				    	{posts}
-					</section>
+						<section className='grid-container'>
+						 	{posts}
+					 	</section>
+					 	<LoadMore posts={this.props.posts} props={this.props} getPosts={this.props.getPosts}/>
 					</div>
 				</div>
             </div>

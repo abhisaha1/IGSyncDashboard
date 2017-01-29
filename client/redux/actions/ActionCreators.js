@@ -3,7 +3,7 @@ import $ from 'jquery';
 import fetch from 'isomorphic-fetch';
 import config from '../../../config/config'
 
-export function getPosts(page_no = 1) {
+export function getPosts(page_no = 1, loadMore = false) {
     return (dispatch) => {
         dispatch({
             type: ActionTypes.REQUEST_DB_POSTS
@@ -15,7 +15,8 @@ export function getPosts(page_no = 1) {
         const getIGPosts = (url) => {
             dispatch({
                 type: ActionTypes.REQUEST_DB_POSTS,
-                payload: true
+                payload: true,
+                loadMore: loadMore
             })
             
             return fetch(url)
@@ -25,7 +26,8 @@ export function getPosts(page_no = 1) {
             .then(response => {
                 dispatch({
                     type: ActionTypes.GET_DB_POSTS,
-                    payload: response
+                    payload: response,
+                    loadMore: loadMore
                 })
             })
         }
@@ -47,7 +49,8 @@ export function getPost(title) {
         const getIGPosts = (url) => {
             dispatch({
                 type: ActionTypes.REQUEST_DB_POSTS,
-                payload: true
+                payload: true,
+                loadMore: false
             })
             
             return fetch(url)
@@ -57,7 +60,8 @@ export function getPost(title) {
             .then(response => {
                 dispatch({
                     type: ActionTypes.GET_DB_SINGLE_POST,
-                    payload: response
+                    payload: response,
+                    loadMore: false
                 })
             })
         }
