@@ -85,7 +85,7 @@ class Connection extends Component {
 								</div>
 							</div>
 						</div>
-						<a target="_blank" href="https://instagram.com/oauth/authorize/?client_id=1677ed07ddd54db0a70f14f9b1435579&redirect_uri=http://instagram.pixelunion.net&response_type=token">Find user id</a>
+						<a target="_blank" href="https://smashballoon.com/instagram-feed/find-instagram-user-id/">Find user id</a>
 					</span>
 				</div>
 			)
