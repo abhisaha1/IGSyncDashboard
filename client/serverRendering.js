@@ -37,7 +37,7 @@ let t=  function(req, res) {
               <RouterContext {...renderProps} />
             </Provider>
         );
-        //let head = Helmet.rewind();
+        //let head = Helmet.rewind();<link rel="stylesheet" href="http://bootswatch.com/cosmo/bootstrap.min.css">
         var bundle = (process.env.NODE_ENV == 'production') ? '/js/client-bundle.js':'/static/client-bundle.js'
         const HTML = `
             <!DOCTYPE html>

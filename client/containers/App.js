@@ -3,15 +3,23 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as ActionCreators from '../redux/actions/ActionCreators';
 import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 class Main extends Component {
 
 	render() {
 	    return (
 			<div className="page-container">
-				<div className="container">
-		        	{ React.cloneElement(this.props.children, this.props) }
-				</div>
+                <div className="jumbotron">
+                    <div className="container">
+                        <h1>Cliptales</h1>
+                        <p>Where paperclips come to life and do weird things</p>
+                    </div>
+                </div>
+  				<div className="container">
+  		        	{ React.cloneElement(this.props.children, this.props) }
+                <Footer />
+  				</div>
 			</div>
 	    )
   	}

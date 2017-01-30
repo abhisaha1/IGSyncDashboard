@@ -29,6 +29,7 @@ export function getPosts(page_no = 1, loadMore = false) {
                     payload: response,
                     loadMore: false
                 })
+                
             })
         }
 

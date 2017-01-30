@@ -34,38 +34,51 @@ class Post extends Component {
 				</div>
 			)
 		}
-		
+		if(this.props.posts.post_loading) {
+			return (
+				<div>
+					<div className="row row-offcanvas row-offcanvas-left">
+						<SidebarWrapper sidebars={[<About/>,<Subscribe/>]} />
+						<div className="col-xs-12 col-sm-8">
+							<img src="/images/loading.svg"/>
+						</div>
+					</div>
+	            </div>
+			)
+		}
 		return (
-			<div>
+			<div className='post'>
 				<div className="row row-offcanvas row-offcanvas-left">
 					<div className='visible-md visible-lg'>
-						<SidebarWrapper sidebar={<Comments comments={this.props.comments} refer_url={this.props.refer_url} />} />
+						<SidebarWrapper sidebars={[<Comments {...this.props}/>]} />
 					</div>
 					<div className="col-sm-12 col-md-8" style={{'marginTop': '30px'}}>
-						<section className='grid-container1'>
-							<article className='card'>
-								<header>
-									<div className="media">
-										<img width='100%' src={this.props.posts.post.images.standard_resolution.url}/>
-									</div>
-								</header>	
-								<div className='content-area'>
-								    <div className='content'>{this.props.posts.post.body }</div>
-								    <p><strong>Tags: </strong> {this.props.posts.post.tags}</p>
-								    <footer>
-								    	<div className='share pull-left'> 
-								    		<SocialButtons post={this.props.posts.post}/>
-							    		</div>
-							    		<div className='comment-count pull-right'> 
-							    			<a target='_blank' href='https://www.instagram.com/p/-T1WIcPdWJ/' className='btn btn-default btn-xs btn-social-icon btn-fb'> 
-							    				<i className='fa fa-heart'></i><span> {this.props.posts.post.likes}</span> 
-							    			</a> 
-							    			<a href='http://cliptales.com/instapost/swing/' className='btn btn-default btn-xs btn-social-icon btn-fb'> 
-							    				<i className='fa fa-comments'></i><span> {this.props.posts.post.comments}</span> 
-							    			</a> 
-						    			</div>
-						    			<div className='clearfix'/>
-								    </footer>
+						<section className='grid-container'>
+							<article className='col-sm-12'>
+								<div className='card'>
+									<header>
+										<div className="media">
+											<img width='100%' src={this.props.posts.post.images.standard_resolution.url}/>
+										</div>
+									</header>	
+									<div className='content-area'>
+									    <div className='content'>{this.props.posts.post.body }</div>
+									    <p><strong>Tags: </strong> {this.props.posts.post.tags}</p>
+									    <footer>
+									    	<div className='share pull-left'> 
+									    		<SocialButtons post={this.props.posts.post}/>
+								    		</div>
+								    		<div className='comment-count pull-right'> 
+								    			<a target='_blank' href='https://www.instagram.com/p/-T1WIcPdWJ/' className='btn btn-default btn-xs btn-social-icon btn-fb'> 
+								    				<i className='fa fa-heart'></i><span> {this.props.posts.post.likes}</span> 
+								    			</a> 
+								    			<a href='http://cliptales.com/instapost/swing/' className='btn btn-default btn-xs btn-social-icon btn-fb'> 
+								    				<i className='fa fa-comments'></i><span> {this.props.posts.post.comments}</span> 
+								    			</a> 
+							    			</div>
+							    			<div className='clearfix'/>
+									    </footer>
+								    </div>
 							    </div>
 						  	</article>
 						</section>

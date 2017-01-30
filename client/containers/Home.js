@@ -6,6 +6,7 @@ import * as ActionCreators from '../redux/actions/ActionCreators';
 import SocialButtons from '../components/SocialButtons'
 import SidebarWrapper from '../components/SidebarWrapper';
 import About from '../components/About';
+import Subscribe from '../components/Subscribe';
 import Masonry from 'react-masonry-component'
 
 let currentPage = 1;
@@ -18,23 +19,30 @@ class LoadMore extends Component {
 	}
 
 	loadMoreStatus() {
-        if(this.props.posts.data.length < this.props.posts.count) {
+        if(this.props.data.length < this.props.count) {
         	return true;
         }
     }
 	handleLoadMore(e) {
 		e.preventDefault();
 		currentPage += 1;
-		this.props.props.getPosts(currentPage,true);
+		this.props.getPosts(currentPage,true);
 	}
 
 	render() {
 		if(!this.loadMoreStatus()) {
 			return <div>Nothing to load</div>
 		}
+		let disabled = (this.props.loadMore) ? 'disabled' : '';
+		let loader = (this.props.loadMore) ? '<img width="18" src="/images/loading.svg"/> Loading..' : ' Load More';
+
 		return (
-			<div className="col-lg-12">
-				<Link className="btn btn-default btn-sm" onClick={(e) => this.handleLoadMore(e)}>Load More</Link>
+			<div className="col-lg-12 btn-group btn-group-justified">
+				<Link disabled={disabled} 
+						className="btn btn-default btn-md" 
+						onClick={(e) => this.handleLoadMore(e)}
+						dangerouslySetInnerHTML={{ __html: loader }}
+				/>
 			</div>
 		)
 	}
@@ -139,36 +147,28 @@ class Home extends Component {
 	}
 
 	render() {
+
 		if(this.props.posts.data.length === 0 && this.props.posts.posts_loading && !this.props.posts.loadMore) {
-			debugger;
 			return (
 				<div>
-	        		<div className="jumbotron">
-					  <h1>Cliptales</h1>
-					  <p>Where paperclips come to life and do weird things</p>
-					</div>
 					<div className="row row-offcanvas row-offcanvas-left">
-						<SidebarWrapper sidebar={<About/>} />
-						<div className="col-xs-12 col-sm-8" style={{'marginTop': '30px'}}>
-							Loading..
-						 	<LoadMore posts={this.props.posts} props={this.props} getPosts={this.props.getPosts}/>
+						<SidebarWrapper sidebars={[<About/>,<Subscribe/>]} />
+						<div className="col-xs-12 col-sm-8">
+							<img src="/images/loading.svg"/>
 						</div>
 					</div>
 	            </div>
 			)
 		}
+
 		const posts = this.props.posts.data.map((post, i) => {
 			return <Card key={i} post={ post } />
 		})
 		
         return (
-        	<div>
-        		<div className="jumbotron">
-				  <h1>Cliptales</h1>
-				  <p>Where paperclips come to life and do weird things</p>
-				</div>
+        	<div className='home'>
 				<div className="row row-offcanvas row-offcanvas-left">
-					<SidebarWrapper sidebar={<About/>} />
+					<SidebarWrapper sidebars={[<About/>,<Subscribe/>]} />
 					<div className="col-xs-12 col-sm-8" style={{'marginTop': '30px'}}>
 						<section className='grid-container'>
 							<Masonry options={masonryOptions} >
@@ -176,7 +176,7 @@ class Home extends Component {
 				            </Masonry>
 						 	
 					 	</section>
-					 	<LoadMore posts={this.props.posts} props={this.props} getPosts={this.props.getPosts}/>
+					 	<LoadMore {...this.props.posts} getPosts={this.props.getPosts}/>
 					</div>
 				</div>
             </div>
