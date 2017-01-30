@@ -48,7 +48,7 @@ export function getConnectionByName(req, params) {
     });
 }
 
-export function insertConnection(req,data) {
+export function insertConnection(data) {
 
     return new Promise((resolve) => {
         pool.getConnection(function(err, connection) {
@@ -67,7 +67,10 @@ export function insertConnection(req,data) {
             connection.query("INSERT INTO connections SET ?", msg, function(err, rows) {
                 if (err) throw err;
                 connection.release()
-                resolve(true);
+                console.log('200 reached');
+                resolve({
+                    code: 200
+                });
             });
 
         });
