@@ -10,24 +10,24 @@ export function getConnections() {
             type: ActionTypes.REQUEST_CONNECTIONS
         });
 
-        fetch(`${apiUrl}/getConnections`)
-            .then((response) => {
-                return response.json();
+        fetch(`${config.apiUrl}/getConnections`)
+        .then((response) => {
+            return response.json();
+        })
+        .then((response) => {
+            let connections = {}
+            response.forEach((connection) => {
+                connection.active = true;
+                connections[connection.network] = connection;
             })
-            .then((response) => {
-                let connections = {}
-                response.forEach((connection) => {
-                    connection.active = true;
-                    connections[connection.network] = connection;
-                })
-                return connections;
+            return connections;
+        })
+        .then((response) => {
+            dispatch({
+                type: ActionTypes.GET_CONNECTIONS,
+                payload: response
             })
-            .then((response) => {
-                dispatch({
-                    type: ActionTypes.GET_CONNECTIONS,
-                    payload: response
-                })
-            });
+        });
     }
 }
 export function startSync(access_token) {
@@ -38,7 +38,7 @@ export function startSync(access_token) {
         });
         let igData = store().instagram.data;
         $.ajax({
-            url: `${apiUrl}/insertPosts`,
+            url: `${config.apiUrl}/insertPosts`,
             method: 'POST',
             data: {
                 data: igData
@@ -53,45 +53,47 @@ export function startSync(access_token) {
     };
 }
 
-export function getInstagramImages(access_token, callback) {
+export function getInstagramImages(callback) {
     return (dispatch) => {
         dispatch({
             type: ActionTypes.REQUEST_IG_IMAGES
         });
+        fetch(`${config.apiUrl}/getConnectionByName/instagram`)
+        .then(response => {
+            return response.json();
+        })
+        .then(response => {
+            let url = `https://api.instagram.com/v1/users/${response.data.user_id}/media/recent/?access_token=${response.data.access_token}`;
+            var data = [];
 
-        let url = 'https://api.instagram.com/v1/users/364550466/media/recent/?access_token=' + access_token;
-        var data = [];
-
-        const getImages = (url) => {
-            dispatch({
-                type: ActionTypes.REQUEST_IG_IMAGES,
-                payload: true
-            })
-            $.ajax({
-                type: "GET",
-                dataType: "jsonp",
-                cache: false,
-                url: url,
-                success: function(response) {
-                    if (response.meta.code === 200) {
-                        dispatch({
-                            type: ActionTypes.GET_IG_IMAGES,
-                            payload: response.data
-                        })
-                        if (response.pagination.next_url) {
-                            getImages(response.pagination.next_url);
-                        } else {
-                            callback();
+            const getImages = (url) => {
+                $.ajax({
+                    type: "GET",
+                    dataType: "jsonp",
+                    cache: false,
+                    url: url,
+                    success: function(response) {
+                        if (response.meta.code === 200) {
+                            dispatch({
+                                type: ActionTypes.GET_IG_IMAGES,
+                                payload: response.data
+                            })
+                            if (response.pagination.next_url) {
+                                getImages(response.pagination.next_url);
+                            } else {
+                                callback();
+                            }
                         }
+                    },
+                    error: function(err) {
+                        console.log(err);
                     }
-                },
-                error: function(err) {
-                    console.log(err);
-                }
-            });
-        }
+                });
+            }
 
-        getImages(url);
+            getImages(url);
+        });
+
     }
 }
 
@@ -101,7 +103,7 @@ export function getPosts() {
             type: ActionTypes.REQUEST_DB_POSTS
         });
 
-        let url = `${apiUrl}/getPosts`;
+        let url = `${apiUrl}/getAllPosts`;
         var data = [];
 
         const getIGPosts = (url) => {

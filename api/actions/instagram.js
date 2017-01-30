@@ -1,6 +1,7 @@
 import { insertConnection } from './connections'
 
 export function handleIgAuth() {
+    
     return new Promise((resolve) => {
         let access_token = req.body.access_token;
         let user_id = req.body.user_id;

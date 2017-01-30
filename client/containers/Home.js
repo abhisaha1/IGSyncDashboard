@@ -3,10 +3,10 @@ import {connect} from 'react-redux';
 import {Link} from 'react-router'
 import {bindActionCreators} from 'redux';
 import * as ActionCreators from '../redux/actions/ActionCreators';
-import SocialButtons from '../components/SocialButtons'
 import SidebarWrapper from '../components/SidebarWrapper';
 import About from '../components/About';
 import Subscribe from '../components/Subscribe';
+import Card from '../components/Card';
 import Masonry from 'react-masonry-component'
 
 let currentPage = 1;
@@ -48,41 +48,41 @@ class LoadMore extends Component {
 	}
 }
 
-class Card extends Component {
+// class Card extends Component {
 
-	render() {
-		return (	
-			<article className='col-sm-12 col-md-6'>
-				<div className='card'>
-					<header>
-						<Link to={'/post/' + this.props.post.url }>
-							<div className="media">
-								<img width='100%' src={this.props.post.images.standard_resolution.url }/>
-							</div>
-						</Link>
-					</header>	
-					<div className='content-area'>
-					    <div className='content'>{this.props.post.body }</div>
-					    <footer>
-					    	<div className='share pull-left'> 
-					    		<SocialButtons post={this.props.post}/>
-				    		</div>
-				    		<div className='comment-count pull-right'> 
-				    			<a target='_blank' href='https://www.instagram.com/p/-T1WIcPdWJ/' className='btn btn-default btn-xs btn-social-icon btn-fb'> 
-				    				<i className='fa fa-heart'></i><span> {this.props.post.likes}</span> 
-				    			</a> 
-				    			<a href='http://cliptales.com/instapost/swing/' className='btn btn-default btn-xs btn-social-icon btn-fb'> 
-				    				<i className='fa fa-comments'></i><span> {this.props.post.comments}</span> 
-				    			</a> 
-			    			</div>
-			    			<div className='clearfix'/>
-					    </footer>
-				    </div>
-			    </div>
-		  	</article>
-		)
-	}
-}
+// 	render() {
+// 		return (	
+// 			<article className='col-sm-12 col-md-6'>
+// 				<div className='card'>
+// 					<header>
+// 						<Link to={'/post/' + this.props.post.url }>
+// 							<div className="media">
+// 								<img width='100%' src={this.props.post.images.standard_resolution.url }/>
+// 							</div>
+// 						</Link>
+// 					</header>	
+// 					<div className='content-area'>
+// 					    <div className='content'>{this.props.post.body }</div>
+// 					    <footer>
+// 					    	<div className='share pull-left'> 
+// 					    		<SocialButtons post={this.props.post}/>
+// 				    		</div>
+// 				    		<div className='comment-count pull-right'> 
+// 				    			<a target='_blank' href='https://www.instagram.com/p/-T1WIcPdWJ/' className='btn btn-default btn-xs btn-social-icon btn-fb'> 
+// 				    				<i className='fa fa-heart'></i><span> {this.props.post.likes}</span> 
+// 				    			</a> 
+// 				    			<a href='http://cliptales.com/instapost/swing/' className='btn btn-default btn-xs btn-social-icon btn-fb'> 
+// 				    				<i className='fa fa-comments'></i><span> {this.props.post.comments}</span> 
+// 				    			</a> 
+// 			    			</div>
+// 			    			<div className='clearfix'/>
+// 					    </footer>
+// 				    </div>
+// 			    </div>
+// 		  	</article>
+// 		)
+// 	}
+// }
 
 
 
@@ -162,7 +162,7 @@ class Home extends Component {
 		}
 
 		const posts = this.props.posts.data.map((post, i) => {
-			return <Card key={i} post={ post } />
+			return <Card key={i} post={ post } classes='col-sm-12 col-md-6'/>
 		})
 		
         return (

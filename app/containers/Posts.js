@@ -5,6 +5,8 @@ import * as ActionCreators from '../redux/actions/ActionCreators';
 import { Link } from 'react-router';
 import Loader from '../components/Loader'
 
+import Sidebar from '../components/Sidebar';
+
 class Card extends Component {
 
 	render() {
@@ -21,14 +23,14 @@ class Card extends Component {
 		)
 	}
 }
-class Instagram extends Component {
+class Posts extends Component {
 
 	componentDidMount() {
 		this.props.getPosts();
 	}
 	startSync(e) {
 		e.preventDefault();
-		this.props.getInstagramImages(this.props.connections.instagram.access_token, () => {
+		this.props.getInstagramImages(() => {
 			this.props.startSync();
 		});
 	}
@@ -61,29 +63,35 @@ class Instagram extends Component {
 		if(this.props.posts.inserting) {
 			status = 'Inserting posts in database';
 		}
-
+			
 		return (
-			<div>
-				<div className="btn-group">
-					<Link disabled={disabled} className="btn btn-default btn-sm" onClick={(evt) => this.startSync(evt)}>
-						{syncing} Sync
-					</Link>
-					<span className={"label label-primary pull-right " + visibility}>{status}</span>
+			<div className="page-container">
+				<div className="row row-offcanvas row-offcanvas-left">
+					<Sidebar />
+					<div className="col-xs-12 col-sm-9">
+						<p/><p/>
+			        	<div className="btn-group">
+							<Link disabled={disabled} className="btn btn-default btn-sm" onClick={(evt) => this.startSync(evt)}>
+								{syncing} Sync
+							</Link>
+							<span className={"label label-primary pull-right " + visibility}>{status}</span>
+						</div>
+						<table className="table table-striped table-hover">
+							<thead>
+								<tr>
+									<th>Image</th>
+									<th>Caption</th>
+									<th>Tags</th>
+									<th>Likes</th>
+									<th>Comments</th>
+								</tr>
+							</thead>
+							<tbody>
+								{cards}
+							</tbody>
+						</table>
+					</div>
 				</div>
-				<table className="table table-striped table-hover">
-					<thead>
-						<tr>
-							<th>Image</th>
-							<th>Caption</th>
-							<th>Tags</th>
-							<th>Likes</th>
-							<th>Comments</th>
-						</tr>
-					</thead>
-					<tbody>
-						{cards}
-					</tbody>
-				</table>
 			</div>
 		)
 
@@ -108,5 +116,5 @@ const mapDispatchToProps = (dispatch) => {
   }, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Instagram);
+export default connect(mapStateToProps, mapDispatchToProps)(Posts);
 

@@ -13,7 +13,7 @@ function instagram(state=initalState, action) {
       	case ActionTypes.GET_DB_POSTS:
 			return {
 				...state,
-        		data: [...state.data, ...action.payload],
+        		data: action.payload.data,
         		loading: false
 	      	};
       	case ActionTypes.REQUEST_DB_POSTS:
@@ -29,7 +29,7 @@ function instagram(state=initalState, action) {
       	case ActionTypes.INSERTING_POST_COMPLETE:
 			return {
 				...state,
-				data: [...state.data, ...action.payload],
+				data: action.payload,
 				inserting: false
 	      	};
   		default:

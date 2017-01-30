@@ -4,6 +4,8 @@ import {connect} from 'react-redux';
 import * as ActionCreators from '../redux/actions/ActionCreators';
 import { Link } from 'react-router';
 
+import Sidebar from '../components/Sidebar';
+
 
 class Connection extends Component {
 
@@ -28,7 +30,7 @@ class Connection extends Component {
 		if(this.props.connections[this.props.network].active) {
 			return (
 				<div>
-					<Link to="/instagram/display" className="btn btn-sm btn-default">Configure</Link>
+					<Link to="/posts" className="btn btn-sm btn-default">Configure</Link>
 					<Link 
 						onClick={(evt)=> this.props.disconnectNetwork(this.props.network,evt)} 
 						className="btn btn-sm btn-default pull-right">
@@ -121,14 +123,25 @@ class Connections extends Component {
 		}
 
 		return (
-			<Connection
-				title = "Instagram"
-				network = "instagram"
-				connections = {this.props.connections}
-				connectNetwork = {this.props.connectNetwork}
-				disconnectNetwork = {this.props.disconnectNetwork}
-				saveAccessToken = {this.props.saveAccessToken}
-			/>
+			<div className="page-container">
+				<div className="row row-offcanvas row-offcanvas-left">
+					<Sidebar 
+						connectionClicked={this.props.connectionClicked}
+					/>
+					<div className="col-xs-12 col-sm-9">
+						<p/><p/>
+			        	<Connection
+							title = "Instagram"
+							network = "instagram"
+							connections = {this.props.connections}
+							connectNetwork = {this.props.connectNetwork}
+							disconnectNetwork = {this.props.disconnectNetwork}
+							saveAccessToken = {this.props.saveAccessToken}
+						/>
+					</div>
+				</div>
+			</div>
+			
 		)
 
 	}
@@ -144,6 +157,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     saveAccessToken: ActionCreators.saveAccessToken,
+    connectionClicked: ActionCreators.connectionClicked,
     connectNetwork: ActionCreators.connectNetwork,
     disconnectNetwork: ActionCreators.disconnectNetwork,
     getConnections: ActionCreators.getConnections
