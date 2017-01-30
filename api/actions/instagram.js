@@ -1,6 +1,6 @@
 import { insertConnection } from './connections'
 
-export function handleIgAuth() {
+export function handleIgAuth(req) {
     
     return new Promise((resolve) => {
         let access_token = req.body.access_token;
