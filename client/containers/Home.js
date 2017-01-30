@@ -8,10 +8,41 @@ import SidebarWrapper from '../components/SidebarWrapper';
 import About from '../components/About';
 import Masonry from 'react-masonry-component'
 
+let currentPage = 1;
+
+class LoadMore extends Component {
+	
+	constructor(props){
+		super(props);
+		this.handleLoadMore = this.handleLoadMore.bind(this);
+	}
+
+	loadMoreStatus() {
+        if(this.props.posts.data.length < this.props.posts.count) {
+        	return true;
+        }
+    }
+	handleLoadMore(e) {
+		e.preventDefault();
+		currentPage += 1;
+		this.props.props.getPosts(currentPage,true);
+	}
+
+	render() {
+		if(!this.loadMoreStatus()) {
+			return <div>Nothing to load</div>
+		}
+		return (
+			<div className="col-lg-12">
+				<Link className="btn btn-default btn-sm" onClick={(e) => this.handleLoadMore(e)}>Load More</Link>
+			</div>
+		)
+	}
+}
+
 class Card extends Component {
 
 	render() {
-		{/*this.props.post.images.standard_resolution.url*/}
 		return (	
 			<article className='col-sm-12 col-md-6'>
 				<div className='card'>
@@ -45,46 +76,7 @@ class Card extends Component {
 	}
 }
 
-class LoadMore extends Component {
-	
-	constructor(props){
-		super(props);
-		this.handleLoadMore = this.handleLoadMore.bind(this);
-		this.currentPage = 1;
-	}
 
-	loadMoreStatus() {
-        if(this.props.posts.data.length < this.props.posts.count) {
-        	return true;
-        }
-    }
-	handleLoadMore(e) {
-		e.preventDefault();
-		let page_no = 2;
-		if(this.props.props.params.page_no) {
-			page_no = parseInt(this.props.props.params.page_no) + 1;
-		}
-
-		//this.context.router.push('/page/'+ page_no)
-		//this.props.props.getPosts(page_no);
-		this.currentPage += 1;
-		this.props.props.getPosts(this.currentPage,true);
-	}
-
-	render() {
-		if(!this.loadMoreStatus()) {
-			return <div>Nothing to load</div>
-		}
-		return (
-			<div className="col-lg-12">
-				<Link className="btn btn-default btn-sm" onClick={(e) => this.handleLoadMore(e)}>Load More</Link>
-			</div>
-		)
-	}
-}
-LoadMore.contextTypes = {
-  router: React.PropTypes.object.isRequired
-};
 
 var masonryOptions = {
     transitionDuration: 500
@@ -121,18 +113,12 @@ class Home extends Component {
 			})
 		}
 	}
-	handleLayoutComplete(items) {
-		console.log(items);
-	}
+
 	loadImage(src,index) {
-        return new Promise(function(resolve, reject){
+        return new Promise((resolve, reject) => {
             var img = new Image()
-            img.onload = function(){
-                resolve(index)
-            }
-            img.onerror = function(){
-                reject(index)
-            }
+            img.onload = () => resolve(index)
+            img.onerror = () => reject(index)
             img.src = src
         })
 	}
@@ -144,12 +130,8 @@ class Home extends Component {
 				if(post.images.standard_resolution.loadUrl) {
 					((index) => {
 						that.loadImage(post.images.standard_resolution.loadUrl, index)
-						.then((index) => {
-							that.props.lazyLoadFinish(index)
-						})
-						.catch(() => {
-
-						})
+						.then((index) => that.props.lazyLoadFinish(index))
+						.catch(() => {})
 					})(i)
 				}
 			})
@@ -157,7 +139,8 @@ class Home extends Component {
 	}
 
 	render() {
-		if(this.props.posts.posts_loading && !this.props.posts.loadMore) {
+		if(this.props.posts.data.length === 0 && this.props.posts.posts_loading && !this.props.posts.loadMore) {
+			debugger;
 			return (
 				<div>
 	        		<div className="jumbotron">
@@ -188,14 +171,7 @@ class Home extends Component {
 					<SidebarWrapper sidebar={<About/>} />
 					<div className="col-xs-12 col-sm-8" style={{'marginTop': '30px'}}>
 						<section className='grid-container'>
-							<Masonry
-								onLayoutComplete={laidOutItems => this.handleLayoutComplete(laidOutItems)}
-				                className={''} // default ''
-				                elementType={'div'} // default 'div'
-				                options={masonryOptions} // default {}
-				                disableImagesLoaded={false} // default false
-				                updateOnEachImageLoad={true} // default false and works only if disableImagesLoaded is false
-				            >
+							<Masonry options={masonryOptions} >
 				                {posts}
 				            </Masonry>
 						 	

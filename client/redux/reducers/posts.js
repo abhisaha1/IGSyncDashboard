@@ -35,7 +35,7 @@ function instagram(state=initalState, action) {
       			post.images.standard_resolution.url = '/images/post.png';
       		})
       		return Object.assign({}, state, {
-                data : (state.loadMore) ? state.data.concat(...action.payload.data) : [...action.payload.data],
+                data : (state.loadMore) ? state.data.concat(...action.payload.data) : [...state.data],
                 posts_loading: false,
         		posts_loaded: true,
         		count: action.payload.count,
