@@ -1,9 +1,10 @@
-var express = require('express');
+import express from 'express';
 import config from '../config/config';
-var serverRendering = require('./serverRendering');
+import serverRendering from './serverRendering';
 
 const app = express();
 app.use(express.static('public'));
+
 if((process.env.NODE_ENV == 'dev')) {
 	// start a webpack-dev-server
 	var webpack = require('webpack');

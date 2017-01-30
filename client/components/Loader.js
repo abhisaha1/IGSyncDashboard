@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 
 export default class Loader extends Component {
 
@@ -9,5 +9,5 @@ export default class Loader extends Component {
 			</div>
 		)
 	}
-
+	
 }
