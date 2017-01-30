@@ -1,4 +1,6 @@
 var ActionTypes     = require('../actions/ActionTypes');
+import siteConfig from '../../../config/site.config'
+
 import moment from 'moment'
 
 const defaultTitle = 'Instagram Title';
@@ -20,7 +22,7 @@ function getTitleFromTags(tags) {
 	let title = defaultTitle;
 	tags.map((tag) => {
 		if(tag.indexOf('title_') >= 0) {
-			title = tag.split('title_')[1]
+			title = tag.split(siteConfig.title_tag_start)[1]
 		}
 	})
 	return title;
@@ -55,7 +57,7 @@ function instagram(state=initalState, action) {
 	switch(action.type) {
 		case ActionTypes.GET_IG_IMAGES:
 
-			let filteredData = filterByTag(action.payload, 'nature');
+			let filteredData = filterByTag(action.payload, siteConfig.tag_sync);
 			let formattedData = formatData(filteredData);
 
 			return {

@@ -53,8 +53,6 @@ export function insertConnection(data) {
     return new Promise((resolve) => {
         pool.getConnection(function(err, connection) {
 
-            let data = req.body.data;
-
             var msg = {
                 access_token: data.access_token,
                 network: data.network,

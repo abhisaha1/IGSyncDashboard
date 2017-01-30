@@ -5,7 +5,8 @@ var initalState = {
 		active: false,
 		access_token: '',
 		user_id: '',
-		saving: false
+		saving: false,
+		error: ''
 	},
 	facebook: {
 		active: false,
@@ -36,12 +37,17 @@ function connections(state=initalState, action) {
       	case ActionTypes.SAVING_IG_ACCESS_TOKEN:
 			return {
 				...state,
-				instagram: {...state.instagram, saving: true}
+				instagram: {...state.instagram, saving: true, error: ''}
 	      	};
       	case ActionTypes.SAVED_IG_ACCESS_TOKEN:
 			return {
 				...state,
-				instagram: {...state.instagram, saving: false}
+				instagram: {...state.instagram, saving: false, error: '', active: true}
+	      	};
+      	case ActionTypes.INVALID_TOKEN:
+			return {
+				...state,
+				instagram: {...state.instagram, saving: false, error: action.payload}
 	      	};
   		default:
   			break;

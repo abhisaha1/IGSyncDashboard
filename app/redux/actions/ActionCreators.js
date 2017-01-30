@@ -143,8 +143,14 @@ export function saveAccessToken(user_id, access_token) {
             },
             success: function() {
                 dispatch({
-                    type: ActionTypes.SAVED_ACCESS_TOKEN,
+                    type: ActionTypes.SAVED_IG_ACCESS_TOKEN,
                     payload: false
+                })
+            },
+            error: (response) => {
+                dispatch({
+                    type: ActionTypes.INVALID_TOKEN,
+                    payload: response.responseJSON
                 })
             }
         })

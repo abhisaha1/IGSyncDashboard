@@ -21,13 +21,14 @@ class Connection extends Component {
 
 	connectionStatus() {
 		let saving = '',
-			disabled = '';
+			disabled = '',
+			network = this.props.connections[this.props.network]
 
-		if(this.props.connections[this.props.network].saving) {
+		if(network.saving) {
 			saving = <img width="16" src="/images/loading.svg" />
 			disabled = ' disabled';
 		}
-		if(this.props.connections[this.props.network].active) {
+		if(network.active) {
 			return (
 				<div>
 					<Link to="/posts" className="btn btn-sm btn-default">Configure</Link>
@@ -53,6 +54,7 @@ class Connection extends Component {
 						Get Access Token
 					</Link>
 					<div className="clearfix"/>
+					<span className="text-error">{network.error && network.error.msg}</span>
 				</div>
 			)
 		}
