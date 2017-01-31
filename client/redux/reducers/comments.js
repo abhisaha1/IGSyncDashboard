@@ -1,5 +1,4 @@
 var ActionTypes     = require('../actions/ActionTypes');
-
 var initalState = {
 	data: [],
 	loading: true
@@ -20,8 +19,6 @@ export default function comments(state=initalState, action) {
 	      	};
   		default:
   			break;
-
-
 	}
 	return state;
 }

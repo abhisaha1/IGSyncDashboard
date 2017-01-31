@@ -29,7 +29,6 @@ const store = createStore(
     )
 );
 
-
 /*
   Enable Hot Reloading for the reducers
   We re-require() the reducers whenever any new code has been written.

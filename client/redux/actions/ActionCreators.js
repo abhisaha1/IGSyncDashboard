@@ -27,7 +27,6 @@ export const getPosts = (page_no = 1, loadMore = false) => {
                     payload: response,
                     loadMore: false
                 })
-                
             })
         }
 
@@ -63,8 +62,6 @@ export const getPost = (title) => {
         });
         let url = `${config.apiUrl}/getPostsByUrl/${title}`;
     
-        var data = [];
-
         const getIGPosts = (url) => {
             dispatch({
                 type: ActionTypes.REQUEST_DB_POSTS,
@@ -107,7 +104,6 @@ export const getComments = (post_id) => {
                     payload: response
                 })
             })
-        
     }
 }
 

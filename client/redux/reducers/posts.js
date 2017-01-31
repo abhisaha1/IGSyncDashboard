@@ -53,8 +53,6 @@ export default function instagram(state = initalState, action) {
             };
         default:
             break;
-
-
     }
     return state;
 }
