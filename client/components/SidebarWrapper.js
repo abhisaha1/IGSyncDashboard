@@ -7,6 +7,7 @@ export default class SidebarWrapper extends Component {
     constructor(props){
         super(props);
     }
+    
     render() {
     	let sidebars = this.props.sidebars.map((sidebar, i) => {
     		return (

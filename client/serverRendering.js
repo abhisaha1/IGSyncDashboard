@@ -33,7 +33,7 @@ module.exports = function(req, res) {
             res.status(404).send('Not found')
         }
 
-        renderHTML() => {
+        function renderHTML() {
 
             const initialState = store.getState();
 

@@ -1,6 +1,15 @@
-import { createStore, applyMiddleware, compose } from 'redux';
-import { syncHistoryWithStore } from 'react-router-redux';
-import { browserHistory, hashHistory } from 'react-router'
+import {
+    createStore,
+    applyMiddleware,
+    compose
+} from 'redux';
+import {
+    syncHistoryWithStore
+} from 'react-router-redux';
+import {
+    browserHistory,
+    hashHistory
+} from 'react-router'
 import rootReducer from './reducers/index';
 import thunk from 'redux-thunk';
 /*
@@ -10,15 +19,15 @@ import thunk from 'redux-thunk';
   2. An optional starting state - similar to React's getInitialState
 */
 
-const initialState = (typeof window !== 'undefined') ? window.__INITIAL_STATE__ : {}    
+const initialState = (typeof window !== 'undefined') ? window.__INITIAL_STATE__ : {}
 
 const store = createStore(
-    rootReducer, 
-    initialState, 
+    rootReducer,
+    initialState,
     compose(
-      applyMiddleware(thunk)
+        applyMiddleware(thunk)
     )
-  );
+);
 
 
 /*
@@ -27,11 +36,11 @@ const store = createStore(
   Webpack will handle the rest
 */
 
-if(module.hot) {
-  module.hot.accept('./reducers/', () => {
-    const nextRootReducer = require('./reducers/index').default;
-    store.replaceReducer(nextRootReducer);
-  });
+if (module.hot) {
+    module.hot.accept('./reducers/', () => {
+        const nextRootReducer = require('./reducers/index').default;
+        store.replaceReducer(nextRootReducer);
+    });
 }
 
 export default store;

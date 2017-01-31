@@ -143,22 +143,20 @@ class Home extends Component {
 				</div>
             </div>
         );
-
 	}
-
 }
 
 const mapStateToProps = (state) => {
-  return {
-    posts: state.posts
-  };
+	return {
+		posts: state.posts
+	};
 }
 
 const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({
-    getPosts: ActionCreators.getPosts,
-    lazyLoadFinish: ActionCreators.lazyLoadFinish
-  }, dispatch);
+	return bindActionCreators({
+		getPosts: ActionCreators.getPosts,
+		lazyLoadFinish: ActionCreators.lazyLoadFinish
+	}, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

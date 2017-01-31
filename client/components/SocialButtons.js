@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 export default class SocialButton extends Component {
 
 	render() {
-
 		return (
 			<div>
 				<a target='_blank' href={`https://twitter.com/home?status=${this.props.post.url}`} className='btn btn-default btn-xs btn-social-icon btn-twitter'> 
@@ -20,6 +19,5 @@ export default class SocialButton extends Component {
 	    		</a> 
     		</div>
 		)
-
 	}
 }

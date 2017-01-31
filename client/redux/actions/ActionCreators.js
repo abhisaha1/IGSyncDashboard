@@ -1,17 +1,15 @@
 import ActionTypes from './ActionTypes'
-import $ from 'jquery';
 import fetch from 'isomorphic-fetch';
 import config from '../../../config/config'
 
-export function getPosts(page_no = 1, loadMore = false) {
+export const getPosts = (page_no = 1, loadMore = false) => {
     return (dispatch) => {
         dispatch({
             type: ActionTypes.REQUEST_DB_POSTS
         });
 
         let url = `${config.apiUrl}/getPosts/page/${page_no}`;
-        var data = [];
-
+        
         const getIGPosts = (url) => {
             dispatch({
                 type: ActionTypes.REQUEST_DB_POSTS,
@@ -36,15 +34,8 @@ export function getPosts(page_no = 1, loadMore = false) {
         return getIGPosts(url);
     }
 }
-function deepCopy(obj,cb) {
-    if (null == obj || "object" != typeof obj) return obj;
-    var copy = obj.constructor();
-    for (var attr in obj) {
-        if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
-    }
-    cb(copy);
-}
-export function lazyLoadFinish(index) {
+
+export const lazyLoadFinish = (index) => {
 
     return (dispatch, state) => {
         let posts = state().posts
@@ -64,7 +55,7 @@ export function lazyLoadFinish(index) {
     }
 }
 
-export function getPost(title) {
+export const getPost = (title) => {
     
     return (dispatch) => {
         dispatch({
@@ -98,7 +89,7 @@ export function getPost(title) {
     }
 }
 
-export function getComments(post_id) {
+export const getComments = (post_id) => {
     
     return (dispatch) => {
         dispatch({
@@ -120,4 +111,14 @@ export function getComments(post_id) {
     }
 }
 
+/* Utility functions */ 
+
+const deepCopy = (obj,cb) => {
+    if (null == obj || "object" != typeof obj) return obj;
+    var copy = obj.constructor();
+    for (var attr in obj) {
+        if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
+    }
+    cb(copy);
+}
 

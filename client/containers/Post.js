@@ -17,8 +17,8 @@ class Post extends Component {
 		if(!this.props.posts.post_loaded) {
 			this.props.getPost(this.props.params.title)
 		}
-		
 	}
+
 	componentWillReceiveProps(nextState) {
 		
 		if(nextState.posts.post.post_id && (nextState.posts.post.post_id !== this.props.posts.post.post_id)) {
@@ -88,25 +88,22 @@ class Post extends Component {
 					</div>
 				</div>
             </div>
-			
 		)
-
 	}
-
 }
 
 const mapStateToProps = (state) => {
-  return {
-    posts: state.posts,
-    comments: state.comments,
-  };
+	return {
+		posts: state.posts,
+		comments: state.comments,
+	};
 }
 
 const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({
-    getPost: ActionCreators.getPost,
-    getComments: ActionCreators.getComments,
-  }, dispatch);
+	return bindActionCreators({
+		getPost: ActionCreators.getPost,
+		getComments: ActionCreators.getComments,
+	}, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Post);

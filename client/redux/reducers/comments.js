@@ -5,9 +5,8 @@ var initalState = {
 	loading: true
 }
 
-function comments(state=initalState, action) {
+export default function comments(state=initalState, action) {
 
-	
 	switch(action.type) {
       	case ActionTypes.GET_COMMENTS:
 			return {
@@ -26,5 +25,3 @@ function comments(state=initalState, action) {
 	}
 	return state;
 }
-
-export default comments;
