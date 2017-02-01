@@ -11,7 +11,7 @@ import {
 import routes from './routes';
 import prefetchComponentData from './utils/prefetchComponentData';
 import store from './redux/createStore';
-//import Helmet from 'react-helmet';
+import Helmet from 'react-helmet';
 
 module.exports = function(req, res) {
 
@@ -42,7 +42,7 @@ module.exports = function(req, res) {
 	              <RouterContext {...renderProps} />
 	            </Provider>
 	        );
-            //let head = Helmet.rewind();
+            let head = Helmet.rewind();
             var bundle = (process.env.NODE_ENV == 'production') ? '/js/client-bundle.js' : '/static/client-bundle.js'
 
             const HTML = `
@@ -51,6 +51,9 @@ module.exports = function(req, res) {
 				  <head>
 					<meta charset="UTF-8">
 					<meta name="viewport" content="width=device-width, initial-scale=1">
+                    ${head.title.toString()}
+                    ${head.meta.toString()}
+                    ${head.link.toString()}
 					<link rel="stylesheet" href="/css/bootstrap.min.css">
 					<link rel="stylesheet" href="http://bootswatch.com/cosmo/bootstrap.min.css">
 					<link rel="stylesheet" href="/css/style.css">
@@ -61,10 +64,10 @@ module.exports = function(req, res) {
 					   window.__INITIAL_STATE__ = ${JSON.stringify(initialState)};
 					   window.__CONFIG__ =  ${JSON.stringify(config)}
 					</script>
-					<script src="${bundle}"></script>
+					<script async src="${bundle}"></script>
 					<link rel='stylesheet' href='/css/font-awesome.min.css' type='text/css' media='all'/>
 				  </body>
-				</html>    
+				</html>
 			`;
             return HTML;
         }

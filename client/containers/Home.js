@@ -7,12 +7,13 @@ import SidebarWrapper from '../components/SidebarWrapper';
 import About from '../components/About';
 import Subscribe from '../components/Subscribe';
 import Card from '../components/Card';
-import Masonry from 'react-masonry-component'
+import Masonry from 'react-masonry-component';
+import Helmet from 'react-helmet';
 
 let currentPage = 1;
 
 class LoadMore extends Component {
-	
+
 	constructor(props){
 		super(props);
 		this.handleLoadMore = this.handleLoadMore.bind(this);
@@ -38,8 +39,8 @@ class LoadMore extends Component {
 
 		return (
 			<div className="col-lg-12 btn-group btn-group-justified">
-				<Link disabled={disabled} 
-						className="btn btn-default btn-md" 
+				<Link disabled={disabled}
+						className="btn btn-default btn-md"
 						onClick={(e) => this.handleLoadMore(e)}
 						dangerouslySetInnerHTML={{ __html: loader }}
 				/>
@@ -58,7 +59,7 @@ class Home extends Component {
 	constructor(props){
 		super(props);
 	}
-	
+
 	static prefetchData = [
 		(params) => ActionCreators.getPosts(params.page_no)
 	];
@@ -126,9 +127,18 @@ class Home extends Component {
 		const posts = this.props.posts.data.map((post, i) => {
 			return <Card key={i} post={ post } classes='col-sm-12 col-md-6'/>
 		})
-		
+
         return (
         	<div className='home'>
+        		<Helmet
+                    title='something'
+                    meta={[
+                        {
+                            name: 'og:url',
+                            content: 'add description here...'
+                        }
+                    ]}
+                />
 				<div className="row row-offcanvas row-offcanvas-left">
 					<SidebarWrapper sidebars={[<About/>,<Subscribe/>]} />
 					<div className="col-xs-12 col-sm-8" style={{'marginTop': '30px'}}>
@@ -136,7 +146,7 @@ class Home extends Component {
 							<Masonry options={masonryOptions} >
 				                {posts}
 				            </Masonry>
-						 	
+
 					 	</section>
 					 	<LoadMore {...this.props.posts} getPosts={this.props.getPosts}/>
 					</div>
