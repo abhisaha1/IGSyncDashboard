@@ -6,7 +6,8 @@ const env = {
     },
     production: {
         "NODE_ENV": "production",
-        "APIHOST": "api.cliptales.com"
+        "APIHOST": "api.cliptales.com",
+        "CLIENTHOST": "cliptales.com"
     },
     development: {
         "NODE_ENV": "dev",
@@ -25,8 +26,10 @@ if (typeof __CONFIG__ !== 'undefined') {
 } else {
     if (process.env.NODE_ENV == 'dev') {
         config.apiUrl = 'http://'+env.development.APIHOST+':'+env.common.APIPORT
+        config.clientUrl = 'http://'+env.development.APIHOST+':'+env.common.CLIENTPORT
     } else {
         config.apiUrl = 'http://'+env.production.APIHOST
+        config.clientUrl = 'http://'+env.production.CLIENTHOST
     }
 }
 module.exports = config;

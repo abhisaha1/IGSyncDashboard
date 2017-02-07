@@ -134,7 +134,23 @@ class Home extends Component {
                     title='something'
                     meta={[
                         {
-                            name: 'og:url',
+                            property: 'og:url',
+                            content: 'add description here...'
+                        },
+                        {
+                            property: 'og:type',
+                            content: 'add description here...'
+                        },
+                        {
+                            property: 'og:title',
+                            content: 'add description here...'
+                        },
+                        {
+                            property: 'og:description',
+                            content: 'add description here...'
+                        },
+                        {
+                            property: 'og:image',
                             content: 'add description here...'
                         }
                     ]}
