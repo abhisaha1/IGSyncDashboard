@@ -48,11 +48,11 @@ class Post extends Component {
 	            </div>
 			)
 		}
-        let url = config.clientUrl + '/post/' + this.props.post.url;
+        let url = config.clientUrl + '/post/' + this.props.posts.post.url;
 		return (
 			<div className='post'>
 				<Helmet
-                    title='something'
+                    title={this.props.posts.post.title}
                     meta={[
                         {
                             property: 'og:url',

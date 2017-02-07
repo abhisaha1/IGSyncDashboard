@@ -23,6 +23,7 @@ config.apiPort = env.common.APIPORT
 //check if this file is being read from client
 if (typeof __CONFIG__ !== 'undefined') {
     config.apiUrl = __CONFIG__.apiUrl
+    config.clientUrl = __CONFIG__.clientUrl
 } else {
     if (process.env.NODE_ENV == 'dev') {
         config.apiUrl = 'http://'+env.development.APIHOST+':'+env.common.APIPORT

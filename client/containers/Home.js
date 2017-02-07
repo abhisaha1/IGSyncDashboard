@@ -9,6 +9,8 @@ import Subscribe from '../components/Subscribe';
 import Card from '../components/Card';
 import Masonry from 'react-masonry-component';
 import Helmet from 'react-helmet';
+import siteConfig from '../../config/site.config'
+import config from '../../config/config'
 
 let currentPage = 1;
 
@@ -127,31 +129,30 @@ class Home extends Component {
 		const posts = this.props.posts.data.map((post, i) => {
 			return <Card key={i} post={ post } classes='col-sm-12 col-md-6'/>
 		})
-
         return (
         	<div className='home'>
         		<Helmet
-                    title='something'
+                    title = {siteConfig.site_title}
                     meta={[
                         {
                             property: 'og:url',
-                            content: 'add description here...'
+                            content: config.clientUrl
                         },
                         {
                             property: 'og:type',
-                            content: 'add description here...'
+                            content: 'website'
                         },
                         {
                             property: 'og:title',
-                            content: 'add description here...'
+                            content: siteConfig.site_title
                         },
                         {
                             property: 'og:description',
-                            content: 'add description here...'
+                            content: siteConfig.site_description
                         },
                         {
                             property: 'og:image',
-                            content: 'add description here...'
+                            content: config.clientUrl + siteConfig.site_image
                         }
                     ]}
                 />
